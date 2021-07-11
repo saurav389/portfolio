@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block content %}
+<maincontact>
+	<div class="leftside">
+
+			<h1 style="margin-bottom: 10px;">
+				<span class="das"> </span>
+				{% for data in contactDetails %}
+				{{data.title}}<br>
+				<h1 class="blue">{{data.titleBlue}}</h1>
+			</h1>
+			<p>
+			{{data.paragraph|linebreaks}}
+		</p>
+		<p><span class="fa">&#xf003</span> {{data.email}}</p>
+		<p><span class="fa">&#xf095</span> +91 {{data.mobileNo}}</p>
+		{% endfor %}
+		<!-- <h3 style="margin-top: 30px; font-size: 2rem;">follow us on Social media </h3> -->
+			<a href="#"><span class="fa fa-facebook-square" style=" font-size: 2rem;"></span></a>
+			<a href="#"><span class="fa fa-twitter" style="font-size: 2rem;"></span></a>
+			<a href="#"><span class="fa fa-instagram" style="color: red; font-size: 2rem;"></span></a>
+	</div>
+	<div class="rightside">		
+		<div class="contact">
+			<form method="POST" enctype="multipart/form-data"> {% csrf_token %}
+				<span>{{message.name}}</span>
+			<div class="input-group input-group-lg mb-3" >
+			  <input type="text" class="form-control" name="name" placeholder="name" aria-describedby="basic-addon1"><span class="input-group-text fa fa-user" id="basic-addon1" ></span>
+			</div>
+			{{message.company}}
+			<div class="input-group input-group-lg mb-3">
+			  <input type="text" class="form-control" name="company" placeholder="company" aria-describedby="basic-addon1"><span class="input-group-text fa fa-suitcase" id="basic-addon1"></span>
+			</div>
+			{{message.email}}
+			<div class="input-group input-group-lg mb-3">
+			<input type="text" class="form-control" name="email" placeholder="Email" aria-describedby="basic-addon1"><span class="input-group-text fa" id="basic-addon1">&#xf003</span>
+			</div>
+			{{message.subject}}
+			<div class="input-group input-group-lg mb-3">
+			  <input type="text" class="form-control" name="subject" placeholder="Subject" aria-describedby="basic-addon1"><span class="input-group-text fa fa-fax" id="basic-addon1"></span>
+			</div>
+			{{message.message}}
+			<div class="input-group input-group-lg mb-3">
+			  <textarea class="form-control" aria-label="With textarea" name="message"></textarea><span class="input-group-text fa fa-send-o" id="basic-addon1"></span>
+			</div>
+			<input type="submit" name="send" class="btn1" value="send" />
+		</form>
+		</div>
+		
+		<!-- <a href="#" class="btn1">send</a> --><br>
+		
+
+	</div>
+</maincontact>
+ 
+
+ {% endblock %}

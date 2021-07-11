@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container_div">
+	{% for data in portfolio%}
+	<div class="child">
+		<div class="code_view">
+		<img src="{{data.image.url}}">
+		</div>
+		<div class="project_view">
+			<p>
+				{{data.detail}}
+			</p>
+		</div>
+	</div>
+	{% endfor %}
+</div>
+
+
+{% endblock %}

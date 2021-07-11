@@ -1,0 +1,36 @@
+{% extends 'blog/bloghome.html'%}
+{% block blog %}
+ <!-- Blog Post -->
+ {% for object in object_list%}
+ <div class="blog_div">
+  <div class="blog_body">
+   <div class="blog_title">{{object.title}}</div>
+   <div class=" blog_img">
+     {% if object.image %}
+        <a href="{{ object.get_absolute_url }}">
+          <img src="{{object.image.url}}">
+            </a>
+      {% endif %}
+   </div>
+   <div class="blog_details"> 
+      {% if value is True %}
+          <a href='{{object.get_edit_url}}' style="float: right;">
+            <i class="fa fa-edit fa-2x"></i></a>
+
+      {% endif %}
+    <p>{{object.content|safe}}</p>
+   </div>
+   <div class="blog_footer">
+    {{request.user}}
+            <a href="#">Author: {{object.user}}</a>
+            {% if object.publish_date is None %}
+            <h3>Not Published</h3>
+            {% else %}
+            <h3> {{object.publish_date}}</h3>
+            {% endif %}
+      </div>
+ </div>
+</div>
+ {%endfor%}
+
+{% endblock blog %}

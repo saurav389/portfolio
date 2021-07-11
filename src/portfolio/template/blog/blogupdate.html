@@ -1,0 +1,27 @@
+{% extends 'base.html'%}
+{% load crispy_forms_tags %}
+{% block content %}
+ <!-- Blog Post -->
+ <div class="blog_div">
+
+    <div class="row" style="background-color:white; box-shadow: 5px 10px 10px grey; margin-top:20px; padding: 20px;">
+
+      <!-- Blog Entries Column -->
+      <div class="col-md-8">
+        
+          <div class="card-body">
+            <h2 class="card-title">Update Blog</h2>
+            <form method="POST" action="" enctype='multipart/form-data'> {% csrf_token %}
+             
+              {{form|crispy}}
+              <button type="submit" class="btn btn-success">Submit</button>
+            </form>
+        </div>
+     <!--  <script type="text/javascript">
+         CKEDITOR.replace( 'content' )
+       </script>-->
+      </div>
+    </div>
+  </div>
+       
+{% endblock %}

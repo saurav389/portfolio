@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="blog_div">
+
+    {% block blog %}
+      {% for object in object_list %}
+    <div class="blog_body">
+      <div class="blog_title">
+        <h2 >{{object.title}}</h2>
+      </div>
+      <div class="blog_img">
+        {% if object.image %}
+              <a href="{{ object.get_absolute_url }}">
+                      <img src="{{object.image.url}}">
+              </a>
+            {% endif %}
+      </div>
+      <div class="blog_details">
+        <p >{{object.content|safe|truncatewords:30}}</p>
+            <a href="{{object.get_absolute_url}}" class="btn btn-primary">Read More &rarr;</a>
+      </div>
+      <div class="blog_footer">
+            <a href="#">Author: {{object.user}}</a>
+            {% if object.publish_date is None %}
+            <h3>Not Published</h3>
+            {% else %}
+            <h3> {{object.publish_date}}</h3>
+            {% endif %}
+      </div>
+      </div>
+      {% endfor %}
+      {% endblock blog %}
+  <div class="blog_right">
+                  <div class="blog_title">Our Blogs</div>
+                  <div class="card-body" style="padding:20px;">
+                      
+                        {% for object in object_list %}
+                          <div class="title">
+                            <a href="{{object.get_absolute_url}}">{{object.title}}</a>
+                          </div>
+                        {% endfor %}
+                  </div>
+              </div>
+              </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<mainbackground>
+	{% for data in about %}
+	<div class="aboutimg">
+		<img src="{{data.image.url}}">
+	</div>
+	<div class="about">
+		<span class="das"> </span>
+		
+		<h1>{{data.title}}</h1>
+		<p>
+			{{data.paragraph|linebreaks}}
+		</p>
+		
+		<a href="{% url 'contact'%}" class="btn1">contact me</a>
+		<!-- <a href="#" class="btn2">learn more</a> -->
+
+	</div>
+	{% endfor %}
+</mainbackground>
+{% endblock %}
