@@ -1,5 +1,5 @@
 from django import forms
-from .models import BlogPost
+from .models import BlogPost, BlogComment, CommentReply
 
 class DateInput(forms.DateInput):
     input_type = 'date'
@@ -23,3 +23,13 @@ class BlogPostModelForm(forms.ModelForm):
         if qs.exists():
             raise forms.ValidationError("This title has already been used. Please try again.")
         return title
+
+class commentForm(forms.ModelForm):
+    class Meta:
+        model = BlogComment
+        fields = '__all__'
+
+class replyForm(forms.ModelForm):
+    class Meta:
+        model = CommentReply
+        fields = '__all__'

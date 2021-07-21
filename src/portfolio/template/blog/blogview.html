@@ -4,7 +4,7 @@
  {% for object in object_list%}
  <div class="blog_div">
   <div class="blog_body">
-   <div class="blog_title">{{object.title}}</div>
+   <div class="blog_title" ><h2 style="padding:10px;">{{object.title}}</h2></div>
    <div class=" blog_img">
      {% if object.image %}
         <a href="{{ object.get_absolute_url }}">
@@ -21,7 +21,6 @@
     <p>{{object.content|safe}}</p>
    </div>
    <div class="blog_footer">
-    {{request.user}}
             <a href="#">Author: {{object.user}}</a>
             {% if object.publish_date is None %}
             <h3>Not Published</h3>
@@ -30,7 +29,62 @@
             {% endif %}
       </div>
  </div>
+ <div class="blog_body" style="max-height: 15rem; overflow-y: auto;">
+  <h3 style="padding:20px;border-bottom: 2px solid black;">Comments............</h3>
+ <div class="row" style="width:100%">
+  {% for obj in comment%}
+  <div class="col-md-12" style="background-color:#0bb3c0;; margin:10px; padding:5px;">
+    
+    <p  style="margin-left:20px; margin-top:20px;"><strong>{{obj.readername}} :- </strong>{{obj.comment}} :)</p>
+      {% for rp in reply%}
+      {% if obj.id == rp.comment_id %}
+      <p  style="margin-left:40px; margin-top:20px; display:none;" id="{{obj.id}}replymsg" ><strong>|_{{rp.replyername}} :- </strong>{{rp.reply}} :)</p>
+      {% endif %}
+      {% endfor%}
+      <a href="#" id="{{obj.id}}" onclick="replyview(this)" style="margin-left:20px; font-size: 15px; color:white">view</a>
+      <a href="#" id="{{obj.id}}btn" onclick="reply(this)" style="margin-left:20px; font-size: 15px; color:white">reply</a>
+
+      <form method="POST" action="{% url 'reply' %}" style="margin-left:20px; display: none;" id="{{obj.id}}btnreply"> {% csrf_token %}
+            <input type="text" name="reply">
+            <input type="hidden" name="commentid" value="{{obj.id}}">
+            <input type="hidden" name="blogid" value="{{obj.blog_id}}">
+      <button type="submit" class="btn btn-primary" style="padding-right: 25px; padding-left: 25px;">reply</button>
+    </form>
+  
+
+  </div>
+    {% endfor %}
+</div>
+</div>
+<div class="blog_body">
+<div class="row">
+   <div class="col-md-12">
+      <form method="POST" action="{% url 'comment' %}" style="width:100%;height: 10rem;"> {% csrf_token %}
+            <textarea name="comment" style="width: 100%; height:10rem; padding: 20px; font-size: 20px; font-family: 'ubuntu' sans-serif;"></textarea>
+            <input type="hidden" name="slug" value="{{object.slug}}">
+      <button type="submit" class="btn btn-primary" style="padding-right: 25px; padding-left: 25px;">Comment</button>
+  
+    </form>
+   </div>
+ </div>
 </div>
  {%endfor%}
+</div>
+<script>
+  function reply(yourchoise){
+    var replybutton = document.getElementById(yourchoise.id);
+    replybutton.style.display='none';
+    var replyinput = document.getElementById(`${yourchoise.id}reply`);
+    replyinput.style.display='block';
+    var viewbtnid = yourchoise.id
+    var viewbtn = document.getElementById(viewbtnid.replace("btn",""));
+    viewbtn.style.display = 'none';
+    console.log(yourchoise.id);
+  }
 
+  function replyview(yourchoise){
+    var replyview = document.getElementById(`${yourchoise.id}replymsg`);
+    replyview.style.display='block';
+  }
+</script>
 {% endblock blog %}

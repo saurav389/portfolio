@@ -40,11 +40,17 @@ class BlogPostManager(models.Manager):
             return self.get_queryset().none()
         return self.get_queryset().published().search(query)
 
+class Category(models.Model):
+	Name = models.CharField(max_length=120)
+
+	def __str__(self):
+		return self.Name
 
 class BlogPost(models.Model):
 	user = models.ForeignKey(User,on_delete=models.CASCADE,related_name ='blog')
 	image   = models.ImageField(upload_to='Blog_image/%Y/%m/%d', blank=True, null=True)
 	title = models.CharField(max_length=120)
+	category = models.ForeignKey(Category,on_delete=models.CASCADE,related_name ='category')
 	slug = models.SlugField(unique=True)
 	content = RichTextUploadingField(null=True,blank=True)
 	views = models.IntegerField(default=0,blank=True,null=True)
@@ -83,3 +89,25 @@ class BlogPost(models.Model):
 	#	self.slug = slugify(self.title)
 	#def __str__(self):
 	#	return self.title
+
+class BlogComment(models.Model):
+	readername = models.CharField(max_length=120)
+	blog = models.ForeignKey(BlogPost,on_delete=models.CASCADE)
+	comment = models.TextField()
+	updated = models.DateTimeField(auto_now=True)
+
+	class Meta:
+	    ordering = ['-updated']
+	def __str__(self):
+		return self.comment
+
+
+class CommentReply(models.Model):
+	replyername = models.CharField(max_length=120)
+	blog = models.ForeignKey(BlogPost,on_delete=models.CASCADE)
+	comment = models.ForeignKey(BlogComment,on_delete=models.CASCADE)
+	reply = models.CharField(max_length=120)
+	updated = models.DateTimeField(auto_now=True)
+
+	class Meta:
+	    ordering = ['-updated']
